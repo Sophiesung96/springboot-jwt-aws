@@ -32,23 +32,24 @@ public class SecurityConfig {
     @Bean
     //authentication
     public UserDetailsService userDetailsService() {
-//        UserDetails admin = User.withUsername("Basant")
-//                .password(encoder.encode("Pwd1"))
-//                .roles("ADMIN")
-//                .build();
-//        UserDetails user = User.withUsername("John")
-//                .password(encoder.encode("Pwd2"))
-//                .roles("USER","ADMIN","HR")
-//                .build();
-//        return new InMemoryUserDetailsManager(admin, user);
+
         return new UserInfoUserDetailsService();
     }
 
+    /**
+     * By placing your JwtFilter before the UsernamePasswordAuthenticationFilter,
+     * you can check for a valid JWT
+     * and authenticate the user based on the token before the form-based authentication filter has a chance to execute.
+     * When the JwtFilter successfully authenticates a user based on a valid JWT,
+     * the request is considered authenticated, and the filter chain can proceed
+     * without triggering the form-based authentication process.
+     * This prevents unnecessary processing by the UsernamePasswordAuthenticationFilter.
+     * */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/products/new","/products/authenticate").permitAll()
+                .requestMatchers("/products/new","/products/authenticate","/products/welcome").permitAll()
                 .and()
                 .authorizeHttpRequests().requestMatchers("/products/**")
                 .authenticated().and()

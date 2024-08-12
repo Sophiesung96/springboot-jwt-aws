@@ -5,6 +5,7 @@ import com.javatechie.dto.Product;
 import com.javatechie.entity.UserInfo;
 import com.javatechie.service.JwtService;
 import com.javatechie.service.ProductService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/products")
+@Slf4j
 public class ProductController {
 
     @Autowired
@@ -52,11 +54,16 @@ public class ProductController {
 
     @PostMapping("/authenticate")
     public String authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
-        if (authentication.isAuthenticated()) {
+        log.info("meowmeow:{}",authRequest);
+        //UsernamePasswordAuthenticationToken is an implementation of the Authentication
+        Authentication authentication=authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(),authRequest.getPassword()));
+        if(authentication.isAuthenticated())
+        {
             return jwtService.generateToken(authRequest.getUsername());
-        } else {
-            throw new UsernameNotFoundException("invalid user request !");
+        }
+        else
+        {
+            throw new UsernameNotFoundException("Invalid username or password");
         }
 
 
