@@ -3,7 +3,8 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - mvn clean install
+      - echo Using Maven Docker image...
+        - docker run --rm -v $(pwd):/usr/src/mymaven -w /usr/src/mymaven maven:3.8.6-openjdk-11 mvn clean install
       - echo Logging in to Amazon ECR...
       - aws --version
       - REPOSITORY_URI=851725405129.dkr.ecr.ap-southeast-2.amazonaws.com/springboot-jwt-aws
