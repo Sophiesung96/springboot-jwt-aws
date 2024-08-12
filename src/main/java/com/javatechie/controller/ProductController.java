@@ -5,6 +5,8 @@ import com.javatechie.dto.Product;
 import com.javatechie.entity.UserInfo;
 import com.javatechie.service.JwtService;
 import com.javatechie.service.ProductService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,6 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/products")
 @Slf4j
+@Tag(name = "Product Controller", description = "Operations related to Product JWT")
 public class ProductController {
 
     @Autowired
@@ -53,6 +56,7 @@ public class ProductController {
 
 
     @PostMapping("/authenticate")
+    @Operation(summary = "Authenticate the incoming user request", description = "Returns a jwt token if the the user is authenticated")
     public String authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
         log.info("meowmeow:{}",authRequest);
         //UsernamePasswordAuthenticationToken is an implementation of the Authentication
