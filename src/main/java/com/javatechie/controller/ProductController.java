@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.Version;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -57,6 +58,7 @@ public class ProductController {
 
     @PostMapping("/authenticate")
     @Operation(summary = "Authenticate the incoming user request", description = "Returns a jwt token if the the user is authenticated")
+    @Version()
     public String authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
         log.info("meowmeow:{}",authRequest);
         //UsernamePasswordAuthenticationToken is an implementation of the Authentication
